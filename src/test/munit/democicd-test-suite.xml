@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns:dbserver="http://www.mulesoft.org/schema/mule/dbserver" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/dbserver http://www.mulesoft.org/schema/mule/dbserver/current/mule-dbserver.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<munit:config name="democicd-test-suite.xml" />
+	<dbserver:config name="MUnit_DB_Server_Config" doc:name="MUnit DB Server Config" doc:id="8a0636bb-ebdc-4112-8e0c-55e9224020de" >
+		<dbserver:connection csv="contacts.csv" database="TestDB" connectionStringParameters="MODE=MySQL"/>
+	</dbserver:config>
+	<db:config name="Test_Database" doc:name="Database Config" doc:id="6d6c2cfc-a0e1-4bd2-a368-30b205949975" >
+		<db:generic-connection url="jdbc:h2:tcp://localhost/mem:TestDB" driverClassName="org.h2.Driver" />
+	</db:config>
+	<munit:test name="democicd-test-suite-democicdFlowTest" doc:id="b07db71e-9b40-458a-8c45-318962cad3ce" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to democicdFlow" doc:id="dd793f22-bba4-4dba-874f-73fb4dea7e14" name="democicdFlow"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>
