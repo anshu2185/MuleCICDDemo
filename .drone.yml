@@ -5,7 +5,7 @@ steps:
 - name: Build
   image: maven:3.6-jdk-8-alpine
   commands:
-  - mvn -Dmaven.test.failure.ignore-true clean package
+  - mvn -DskipTests -Dmaven.test.failure.ignore-true clean package
   when:
     branch: [development]
 - name: Deploy
