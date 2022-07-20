@@ -16,6 +16,6 @@ steps:
     anypoint_passwrd:
       from_secret: password
   commands:
-  - mvn -Dmaven.test.failure.ignore-true clean deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=${anypoint_userName} -Dpassword=${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
+  - mvn -Dmaven.test.failure.ignore-true clean deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
   when:
     branch: [development]    
