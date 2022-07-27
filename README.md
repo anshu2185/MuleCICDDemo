@@ -1,1 +1,1 @@
-# MuleCICDDemo
+# MuleCI/CD Demo
