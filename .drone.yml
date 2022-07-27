@@ -2,9 +2,10 @@ kind: pipeline
 name: default
 
 steps:
-- name: Build
+- name: Test and Build
   image: maven:3.6-jdk-8-alpine
   commands:
+  - mvn test
   - mvn -DskipTests -Dmaven.test.failure.ignore-true clean package
   when:
     branch: [development]
