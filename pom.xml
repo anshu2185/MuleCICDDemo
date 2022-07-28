@@ -86,7 +86,7 @@
 						</formats>
 						<ignoreFlows></ignoreFlows>
 					</coverage>
-					<runtimeVersion>4.1.4</runtimeVersion>
+					<runtimeVersion>4.1.1</runtimeVersion>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -159,6 +159,13 @@
 
 	<repositories>
 		<repository>
+                        <id>central</id>
+                        <url>https://repo1.maven.org/maven2</url>
+                        <snapshots>
+                            <enabled>false</enabled>
+                        </snapshots>
+                    </repository>
+		<repository>
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange</name>
 			<url>https://maven.anypoint.mulesoft.com/api/v3/maven</url>
@@ -194,6 +201,13 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
+		<pluginRepository>
+                        <id>central</id>
+                        <url>https://repo1.maven.org/maven2</url>
+                        <snapshots>
+                            <enabled>false</enabled>
+                        </snapshots>
+                    </pluginRepository>
 	</pluginRepositories>
 
 </project>
