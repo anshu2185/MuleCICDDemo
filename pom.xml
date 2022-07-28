@@ -86,7 +86,7 @@
 						</formats>
 						<ignoreFlows></ignoreFlows>
 					</coverage>
-					<runtimeVersion>4.4.0-20220221</runtimeVersion>
+					<runtimeVersion>4.1.1</runtimeVersion>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -155,6 +155,11 @@
 			<version>2.3.11</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+    <groupId>org.mule.distributions</groupId>
+    <artifactId>mule-runtime-impl-bom</artifactId>
+    <version>4.1.1</version>
+</dependency>
 	</dependencies>
 
 	<repositories>
