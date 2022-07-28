@@ -86,7 +86,7 @@
 						</formats>
 						<ignoreFlows></ignoreFlows>
 					</coverage>
-					<runtimeVersion>4.4.0-20220221</runtimeVersion>
+					<runtimeVersion>4.4.0</runtimeVersion>
 				</configuration>
 			</plugin>
 		</plugins>
