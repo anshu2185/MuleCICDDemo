@@ -17,7 +17,7 @@
 
 		<app.runtime>4.4.0-20220221</app.runtime>
 		<mule.maven.plugin.version>3.5.4</mule.maven.plugin.version>
-		<munit.version>2.1.4</munit.version>
+		<munit.version>2.3.9</munit.version>
 	</properties>
 
 	<build>
@@ -86,7 +86,7 @@
 						</formats>
 						<ignoreFlows></ignoreFlows>
 					</coverage>
-					<runtimeVersion>4.1.1</runtimeVersion>
+					<runtimeVersion>4.4.0-20220221</runtimeVersion>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -158,16 +158,7 @@
 	</dependencies>
 
 	<repositories>
-		<repository>
-                        <id>central</id>
-                        <url>https://repo1.maven.org/maven2</url>
-                        <snapshots>
-                            <enabled>false</enabled>
-                        </snapshots>
-			<releases>
-            		    <enabled>false</enabled>
-        		</releases>
-                    </repository>
+		
 		<repository>
 			<id>anypoint-exchange-v3</id>
 			<name>Anypoint Exchange</name>
@@ -180,28 +171,11 @@
 			<url>https://repository.mulesoft.org/releases/</url>
 			<layout>default</layout>
 		</repository>
-		 <repository>
-        		<id>mulesoft-snapshots</id>
-        		<name>MuleSoft Snapshot Repository</name>
-        		<url>http://repository.mulesoft.org/snapshots/</url>
-        		<layout>default</layout>
-    		</repository>
-    <!--<repository>
-        <id>mulesoft-public</id>
-        <name>MuleSoft Public Repository</name>
-        <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-        <layout>default</layout>
-    </repository> -->
+		 
 	</repositories>
 
 	<pluginRepositories>
-		<pluginRepository>
-        <id>central</id>
-        <url>https://repo1.maven.org/maven2</url>
-        <releases>
-            <enabled>false</enabled>
-        </releases>
-    </pluginRepository>
+		
 		<pluginRepository>
 			<id>mulesoft-releases</id>
 			<name>MuleSoft Releases Repository</name>
