@@ -3,10 +3,10 @@ name: default
 type: docker
 steps:
 - name: git-tag
-    image: docker:git
-    commands:
-      - git tag dev-5.0.1
-      - git push origin dev-5.0.1
+  image: docker:git
+  commands:
+  - git tag dev-5.0.1
+  - git push origin dev-5.0.1
 when:
       event: push
       branch: [development]
