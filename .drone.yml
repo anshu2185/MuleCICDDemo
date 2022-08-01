@@ -5,7 +5,7 @@ steps:
 - name: git-tag
   image: docker:git
   commands:
-  - git tag -a dev-5.0.1
+  - git tag -a dev-5.0.1 -m "created new dev tag"
   - git push --tags
 when:
       event: push
