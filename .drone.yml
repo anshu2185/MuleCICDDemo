@@ -15,7 +15,6 @@ steps:
       from_secret: password
   commands:
   - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
-trigger:
-  ref:
-    include:
-    - refs/tags/dev*
+  when:
+      ref:
+      - refs/tags/dev*
