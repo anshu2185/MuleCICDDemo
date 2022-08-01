@@ -4,7 +4,11 @@ type: docker
 steps:
 - name: git-tag
   image: docker:git
+  environment:
+    gittoken:
+      from_secret: token
   commands:
+  - git remote add origin 'https://$${gittoken}@github.com/anshu2185/MuleCICDDemo.git'
   - git tag -a dev-5.0.1 -m "created new dev tag"
   - git push --tags
 when:
