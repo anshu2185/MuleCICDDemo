@@ -1,5 +1,6 @@
 kind: pipeline
-name: default
+name: "Sandbox Environment"
+type: docker
 trigger:
   ref:
     - "refs/tags/dev*"
@@ -8,7 +9,7 @@ steps:
  # image: maven:3.6-jdk-8-alpine
   #commands:
   #- mvn clean test -s .maven/settings.xml
-- name: Deploy
+- name: Deploy to Sandbox
   image: maven:3.6-jdk-8-alpine
   environment:
     anypoint_userName:
@@ -17,3 +18,27 @@ steps:
       from_secret: password
   commands:
   - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
+  
+---
+kind: pipeline
+name: "Production Environment"
+type: docker
+trigger:
+  ref:
+    - "refs/tags/prod*"
+steps:
+#- name: Unit Test
+ # image: maven:3.6-jdk-8-alpine
+  #commands:
+  #- mvn clean test -s .maven/settings.xml
+- name: Deploy to Sandbox
+  image: maven:3.6-jdk-8-alpine
+  environment:
+    anypoint_userName:
+      from_secret: username
+    anypoint_passwrd:
+      from_secret: password
+  commands:
+  - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
+  
+  
