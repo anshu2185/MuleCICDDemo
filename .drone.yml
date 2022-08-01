@@ -1,0 +1,19 @@
+kind: pipeline
+name: default
+trigger:
+  ref:
+    - "refs/tags/dev*"
+steps:
+#- name: Unit Test
+ # image: maven:3.6-jdk-8-alpine
+  #commands:
+  #- mvn clean test -s .maven/settings.xml
+- name: Deploy
+  image: maven:3.6-jdk-8-alpine
+  environment:
+    anypoint_userName:
+      from_secret: username
+    anypoint_passwrd:
+      from_secret: password
+  commands:
+  - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
