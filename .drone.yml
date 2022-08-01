@@ -1,5 +1,5 @@
 kind: pipeline
-name: default
+name: "create git tag and deploy to Sandbox"
 type: docker
 steps:
 - name: git-tag
@@ -9,20 +9,13 @@ steps:
       from_secret: token
   commands:
   - git remote set-url origin https://$${gittoken}@github.com/anshu2185/MuleCICDDemo.git
-  - git tag -a dev-5.0.1 -m "created new dev tag"
+  - git tag -a dev-5.0.2 -m "created new dev tag"
   - git push --tags
 when:
       event: push
       branch: [development]
 
----
-kind: pipeline
-name: "Sandbox Environment"
-type: docker
-trigger:
-  ref:
-    - "refs/tags/dev*"
-steps:
+
 #- name: Unit Test
  # image: maven:3.6-jdk-8-alpine
   #commands:
@@ -36,7 +29,10 @@ steps:
       from_secret: password
   commands:
   - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
-  
+  when:
+   ref:
+   - "refs/tags/dev*"
+
 ---
 kind: pipeline
 name: "Production Environment"
