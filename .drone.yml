@@ -11,7 +11,7 @@ steps:
   - git remote set-url origin https://$${gittoken}@github.com/anshu2185/MuleCICDDemo.git
   - git tag -a dev-5.0.2 -m "created new dev tag"
   - git push --tags
-when:
+  when:
       event: push
       branch: [development]
 
