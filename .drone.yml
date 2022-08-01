@@ -14,9 +14,9 @@ steps:
     anypoint_passwrd:
       from_secret: password
   commands:
-  - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu    
-  when:
-    branch: [development]
+  - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
 trigger:
-  ref:
-  - refs/tags/dev-*
+  branch:
+  - development
+  event:
+  - tag
