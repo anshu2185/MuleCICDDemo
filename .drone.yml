@@ -5,7 +5,7 @@ steps:
 - name: Test and Build
   image: maven:3.6-jdk-8-alpine
   commands:
-  - mvn test
+  - mvn clean test -Dmule.testingMode=true
   - mvn -DskipTests -Dmaven.test.failure.ignore-true clean package
   when:
     branch: [development]
