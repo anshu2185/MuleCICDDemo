@@ -2,13 +2,10 @@ kind: pipeline
 name: default
 
 steps:
-- name: Test and Build
-  image: maven:3.6-jdk-8-alpine
-  commands:
-  - mvn clean test -Dmule.testingMode=true
-  - mvn -DskipTests -Dmaven.test.failure.ignore-true clean package
-  when:
-    branch: [development]
+#- name: Unit Test
+ # image: maven:3.6-jdk-8-alpine
+  #commands:
+  #- mvn clean test -s .maven/settings.xml
 - name: Deploy
   image: maven:3.6-jdk-8-alpine
   environment:
@@ -17,6 +14,10 @@ steps:
     anypoint_passwrd:
       from_secret: password
   commands:
-  - mvn -Dmaven.test.failure.ignore-true clean deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
-  when:
-    branch: [development]    
+  - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu    
+trigger:
+  branch:
+    - development
+  ref:
+    include:
+    - refs/tags/**
