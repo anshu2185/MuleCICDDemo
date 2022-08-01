@@ -5,8 +5,8 @@ steps:
 - name: git-tag
   image: docker:git
   commands:
-  - git tag dev-5.0.1
-  - git push origin dev-5.0.1
+  - git tag -a dev-5.0.1
+  - git push --tags
 when:
       event: push
       branch: [development]
