@@ -16,7 +16,6 @@ steps:
   commands:
   - mvn clean package deploy -DmuleDeploy -DskipTests -Dmule.version=4.4.0 -Dusername=$${anypoint_userName} -Dpassword=$${anypoint_passwrd} -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu
 trigger:
-  branch:
-  - development
-  event:
-  - tag
+  ref:
+    include:
+    - refs/tags/dev*
