@@ -59,4 +59,7 @@ jobs:
         name: artifacts
     
     - name: Deploy to Sandbox
-      run: mvn deploy -DmuleDeploy -DskipTests  --file pom.xml
+      env:
+        USERNAME: ${{ secrets.username }}
+        PASSWORD: ${{ secrets.password }}
+      run: mvn deploy -DmuleDeploy -DskipTests  -Dmule.version=4.4.0 -Dusername="$USERNAME" -Dpassword="$PASSWORD" -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu21 --file pom.xml
