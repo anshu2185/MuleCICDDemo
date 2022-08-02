@@ -41,7 +41,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    
+    environment: Production
     steps:    
     
     - name: Checkout repository
@@ -62,4 +62,13 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-      run: mvn deploy -DmuleDeploy -DskipTests  -Dmule.version=4.4.0 -Dusername=$USERNAME -Dpassword=$PASSWORD -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu21 --file pom.xml
+      run: |
+        artifactName=$(ls *.jar | head -1)
+        mvn deploy -DmuleDeploy \
+         -Dmule.artifact=$artifactName \
+         -Dmule.version=4.4.0 \
+         -Dusername="$USERNAME" \
+         -Dpassword="$PASSWORD" \
+         -Denvironment=Sandbox \
+         -Dcloudhub.application.name=democicdanshu21 \
+         -DskipTests
