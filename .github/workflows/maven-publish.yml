@@ -60,6 +60,6 @@ jobs:
     
     - name: Deploy to Sandbox
       env:
-        USERNAME: ${{ secrets.username }}
-        PASSWORD: ${{ secrets.password }}
-      run: mvn deploy -DmuleDeploy -DskipTests  -Dmule.version=4.4.0 -Dusername="$USERNAME" -Dpassword="$PASSWORD" -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu21 --file pom.xml
+        USERNAME: ${{ secrets.USERNAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
+      run: mvn deploy -DmuleDeploy -DskipTests  -Dmule.version=4.4.0 -Dusername=$USERNAME -Dpassword=$PASSWORD -Denvironment=Sandbox -Dcloudhub.application.name=democicdanshu21 --file pom.xml
