@@ -70,5 +70,5 @@ jobs:
          -Dusername="$USERNAME" \
          -Dpassword="$PASSWORD" \
          -Denvironment=Sandbox \
-         -Dcloudhub.application.name=democicdanshu21 \
+         -Dcloudhub.application.name=democicdanshu22 \
          -DskipTests
