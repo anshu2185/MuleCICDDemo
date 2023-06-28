@@ -19,7 +19,7 @@ jobs:
     - name: Read .clj file
       id: read_file
       run: |
-        content=$(cat ../../scripts/demo.clj)
+        content=$(cat scripts/demo.clj)
         echo "::set-output name=content::$content"
 
     - name: Extract script name and description
