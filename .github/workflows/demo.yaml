@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Set up MySQL client
-      run: sudo apt-get install mysql-client -y
+      run: sudo apt-get install mysql-shell -y
       
     - name: Read .clj file
       id: read_file
@@ -24,4 +24,4 @@ jobs:
 
     - name: Upsert file content into MySQL
       run: |
-        mysql --host=2.tcp.ngrok.io --port=14590 --user=root -password=mysqlpw -e "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
+        mysqlsh --host=2.tcp.ngrok.io --port=14590 --user=root -password=mysqlpw --sql -e "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
