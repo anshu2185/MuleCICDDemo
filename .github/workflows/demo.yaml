@@ -1,0 +1,41 @@
+name: Upsert CJI file into MySQL
+
+on:
+  pull_request:
+    branches: [sandbox]
+    types: [closed]
+jobs:
+  upsert_file:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up MySQL client
+      uses: dorny/setup-mysql-action@v1
+      with:
+        mysql-version: '5.7'
+        mysql-host: 4.tcp.ngrok.io
+        mysql-port: 12963
+        mysql-username: root
+        mysql-password: mysqlpw
+
+    - name: Read .clj file
+      id: read_file
+      run: |
+        content=$(cat ../../scripts/demo.clj)
+        echo "::set-output name=content::$content"
+
+    - name: Extract script name and description
+      id: extract_info
+      run: |
+        script_name=$(echo "${{ steps.read_file.outputs.content }}" | grep -oP '(?<=; Script Name: ).*')
+        description=$(echo "${{ steps.read_file.outputs.content }}" | grep -oP '(?<=; Description: ).*')
+        echo "::set-output name=script_name::$script_name"
+        echo "::set-output name=description::$description"
+
+    - name: Upsert file content into MySQL
+      run: |
+        mysql -h ${{ secrets.MYSQL_HOST }} -P ${{ secrets.MYSQL_PORT }} -u ${{ secrets.MYSQL_USERNAME }} -p"${{ secrets.MYSQL_PASSWORD }}" -e "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('${{ steps.extract_info.outputs.script_name }}', '${{ steps.extract_info.outputs.description }}', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
