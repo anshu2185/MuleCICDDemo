@@ -13,8 +13,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: update
+      run: sudo apt-get update
     - name: Set up MySQL client
-      run: sudo apt-get install mysql-client -y
+      run: sudo apt-get install mysql-shell
       
     - name: Read .clj file
       id: read_file
