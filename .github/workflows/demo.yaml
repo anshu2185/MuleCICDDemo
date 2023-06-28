@@ -13,10 +13,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: update
-      run: sudo apt-get update
+    - name: Download MySQL Shell
+      run: |
+        wget https://dev.mysql.com/get/Downloads/MySQL-Shell/mysql-shell-8.0.26-linux-glibc2.12-x86-64bit.tar.xz
+        tar xf mysql-shell-8.0.26-linux-glibc2.12-x86-64bit.tar.xz
+
     - name: Set up MySQL client
-      run: sudo apt-get install mysql-shell
+      run: |
+        sudo cp mysql-shell-8.0.26-linux-glibc2.12-x86-64bit/bin/mysqlsh /usr/local/bin/
+        sudo ln -s /usr/local/bin/mysqlsh /usr/local/bin/mysql
       
     - name: Read .clj file
       id: read_file
