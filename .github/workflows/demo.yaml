@@ -24,4 +24,4 @@ jobs:
 
     - name: Upsert file content into MySQL
       run: |
-        mysql --host "2.tcp.ngrok.io" --port "14590" --user "root" -password "mysqlpw" --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
+        mysql --host=2.tcp.ngrok.io --port=14590 --user=root -password=mysqlpw -e "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
