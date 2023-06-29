@@ -17,9 +17,8 @@ jobs:
     - name: Read .clj file
       id: read_file
       run: |
-        content=$(sed 's/"/\\"/g' scripts/demo.clj)
-        echo $content >> $GITHUB_ENV
+        cat scripts/demo.clj > demo_tmp.clj
 
     - name: Upsert file content into MySQL
       run: |
-        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '$content', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '$content', created_date = NOW();"
+        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '$(cat demo_tmp.clj)', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '$(cat demo_tmp.clj)', created_date = NOW();"
