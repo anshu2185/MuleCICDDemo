@@ -13,15 +13,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Download MySQL Shell
-      run: |
-        wget https://dev.mysql.com/get/Downloads/MySQL-Shell/mysql-shell-8.0.33-linux-glibc2.12-x86-64bit.tar.gz
-        tar xf mysql-shell-8.0.33-linux-glibc2.12-x86-64bit.tar.gz
-
-    - name: Set up MySQL client
-      run: |
-        sudo cp mysql-shell-8.0.33-linux-glibc2.12-x86-64bit/bin/mysqlsh /usr/local/bin/
-        sudo ln -s /usr/local/bin/mysqlsh /usr/local/bin/mysql
       
     - name: Read .clj file
       id: read_file
@@ -31,4 +22,4 @@ jobs:
 
     - name: Upsert file content into MySQL
       run: |
-        mysqlsh --host=2.tcp.ngrok.io --port=14590 --user=root -password=mysqlpw --sql -e "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
+        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('test1', 'asd abjf', '${{ steps.read_file.outputs.content }}', NOW()) ON DUPLICATE KEY UPDATE script_name = '${{ steps.extract_info.outputs.script_name }}', description = '${{ steps.extract_info.outputs.description }}', script_content = '${{ steps.read_file.outputs.content }}', created_date = NOW();"
