@@ -17,7 +17,7 @@ jobs:
     - name: Read .clj file
       id: read_file
       run: |
-        content=$(cat scripts/demo.clj)
+        content=$(sed 's/"/\\"/g' scripts/demo.clj)
         echo $content >> $GITHUB_ENV
 
     - name: Upsert file content into MySQL
