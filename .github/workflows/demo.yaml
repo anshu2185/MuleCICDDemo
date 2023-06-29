@@ -22,13 +22,14 @@ jobs:
     - name: Extract script name and description
       id: extract_info
       run: |
-        script_name=$(grep -oP '(?<=; Script Name: ).*' demo_tmp.clj | cut -d':' -f2-)
-        file_description=$(grep -oP '(?<=; Description: ).*' demo_tmp.clj | cut -d':' -f2-)
+        script_name=$(awk -F': ' '/^;; Script Name:/ {print $2}' demo_tmp.clj)
+        description=$(awk -F': ' '/^;; Description:/ {print $2}' demo_tmp.clj)
+        
         echo "script_name=$script_name" >> $GITHUB_ENV
-        echo "file_description=$file_description" >> $GITHUB_ENV
+        echo "description=$description" >> $GITHUB_ENV
     - name: Print env
       run: |
         env
     - name: Upsert file content into MySQL
       run: |
-        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('$script_name', '$file_description', '$(cat demo_tmp.clj)', NOW()) ON DUPLICATE KEY UPDATE script_name = '$script_name', description = '$file_description', script_content = '$(cat demo_tmp.clj)', created_date = NOW();"
+        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('$script_name', '$description', '$(cat demo_tmp.clj)', NOW()) ON DUPLICATE KEY UPDATE script_name = '$script_name', description = '$description', script_content = '$(cat demo_tmp.clj)', created_date = NOW();"
