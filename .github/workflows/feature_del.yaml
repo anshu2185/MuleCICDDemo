@@ -1,0 +1,31 @@
+on:
+  workflow_dispatch:
+
+ 
+
+jobs:
+  cleanupBranches:
+    runs-on: ubuntu-latest
+
+ 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+ 
+
+      - name: Cleanup Branches
+        run: |
+          git fetch origin
+          git checkout sandbox
+          merged_branches=$(git branch --remote --merged | grep -vE "(sandbox|main)" | awk '{print $1}')
+          for branch in $merged_branches; do
+            last_commit_date=$(git log -1 --format=%cd --date=iso "$branch")
+            last_commit_timestamp=$(date -d "$last_commit_date" +%s)
+            current_timestamp=$(date +%s)
+            time_diff=$((current_timestamp - last_commit_timestamp))
+            if ((time_diff >= 7 * 24 * 60 * 60)); then
+              git push origin --delete "$branch"
+            fi
+          done
