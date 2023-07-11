@@ -1,0 +1,35 @@
+name: Upsert CJI file into MySQL
+
+on:
+  pull_request:
+    branches: [sandbox]
+    types: [closed]
+jobs:
+  upsert_file:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+      
+    - name: Read .clj file
+      id: read_file
+      run: |
+        cat scripts/demo.clj > demo_tmp.clj
+
+    - name: Extract script name and description
+      id: extract_info
+      run: |
+        script_name=$(awk -F': ' '/^;; Script Name:/ {print $2}' demo_tmp.clj)
+        description=$(awk -F': ' '/^;; Description:/ {print $2}' demo_tmp.clj)
+        
+        echo "script_name=$script_name" >> $GITHUB_ENV
+        echo "description=$description" >> $GITHUB_ENV
+    - name: Print env
+      run: |
+        env
+    - name: Upsert file content into MySQL
+      run: |
+        mysql --host=6.tcp.ngrok.io --port=16232 --user=root --password=mysqlpw --execute "USE test; INSERT INTO cicd_test (script_name, description, script_content, created_date) VALUES ('$script_name', '$description', '$(cat demo_tmp.clj)', NOW()) ON DUPLICATE KEY UPDATE script_name = '$script_name', description = '$description', script_content = '$(cat demo_tmp.clj)', created_date = NOW();"
