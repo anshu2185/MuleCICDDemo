@@ -16,7 +16,7 @@ jobs:
       - name: Get merged branches
         id: merged_branches
         run: |
-          merged_branches=$(gh pr list --state merged --base sandbox --json "number" | jq -r '.[].head.ref')
+          merged_branches=$(git branch --remote --merged | grep -vE "(sandbox|main)" | awk '{print $1}')
           echo "::set-output name=branches::$merged_branches"
 
       - name: Delete branches
