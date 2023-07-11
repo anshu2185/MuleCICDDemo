@@ -18,7 +18,9 @@ jobs:
         run: |
           merged_branches=$(git branch --remote --merged | grep -vE "(sandbox|main)" | awk '{print $1}')
           echo $merged_branches >> $GITHUB_ENV
-
+      - name: Print environment variables
+        run: |
+         env
       - name: Delete branches
         run: |
           merged_branches=(${{ steps.merged_branches.outputs.branches }})
