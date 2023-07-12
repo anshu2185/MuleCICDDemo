@@ -16,6 +16,8 @@ jobs:
       - name: Get merged branches
         id: merged_branches
         run: |
+          git fetch origin
+          git checkout sandbox
           merged_branches=$(git branch -r --merged | grep -vE "(sandbox|main)" | sed 's/origin\///' | awk '{$1=$1};1')
           echo "BRANCHES=$merged_branches" >> $GITHUB_ENV
       - name: Print environment variables
