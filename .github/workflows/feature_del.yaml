@@ -16,16 +16,16 @@ jobs:
       - name: Get merged branches
         id: merged_branches
         run: |
-          merged_branches=$(git branch --remote --merged $(git rev-parse origin/sandbox) | grep -vE "(sandbox|main)" | sed 's/origin\///' | awk '{print $1}')
-          echo $merged_branches >> $GITHUB_ENV
+          merged_branches=$(git branch -r --merged origin/sandbox | grep -vE "(sandbox|main)" | sed 's/origin\///' | awk '{$1=$1};1')
+          echo "BRANCHES=$merged_branches" >> $GITHUB_ENV
       - name: Print environment variables
         run: |
          env
       - name: Delete branches
         run: |
-          merged_branches=(${{ steps.merged_branches.outputs.branches }})
+          merged_branches="${{ env.BRANCHES }}"
 
-          for branch in "${merged_branches[@]}"; do
+          for branch in $merged_branches; do
             if [[ $branch != "sandbox" && $branch != "main" ]]; then
               git push origin --delete $branch
               echo "Deleted branch: $branch"
