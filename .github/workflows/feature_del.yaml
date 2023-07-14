@@ -29,7 +29,7 @@ jobs:
 
           for branch in $merged_branches; do
             if [[ $branch != "sandbox" && $branch != "main" ]]; then
-              last_commit_date=$(git log -1 --format=%cd --date=iso "$branch")
+              # last_commit_date=$(git log -1 --format=%cd --date=iso "$branch")
               echo "commit: $last_commit_date"
               git push origin --delete $branch
               echo "Deleted branch: $branch"
