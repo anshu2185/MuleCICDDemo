@@ -1,31 +1,37 @@
+name: Delete Merged Branches
+
 on:
   workflow_dispatch:
-
- 
-
+  
 jobs:
-  cleanupBranches:
+  delete-branches:
     runs-on: ubuntu-latest
 
- 
-
     steps:
-      - name: Checkout Repository
+      - name: Check out code
         uses: actions/checkout@v2
 
- 
+      
 
-      - name: Cleanup Branches
+      - name: Get merged branches
+        id: merged_branches
         run: |
           git fetch origin
           git checkout sandbox
-          merged_branches=$(git branch --remote --merged | grep -vE "(sandbox|main)" | awk '{print $1}')
+          merged_branches=$(git branch -r --merged | grep -vE "(sandbox|main)" | sed 's/origin\///' | awk '{$1=$1};1')
+          echo "BRANCHES=$merged_branches" >> $GITHUB_ENV
+      - name: Print environment variables
+        run: |
+         env
+      - name: Delete branches
+        run: |
+          merged_branches="${{ env.BRANCHES }}"
+
           for branch in $merged_branches; do
-            last_commit_date=$(git log -1 --format=%cd --date=iso "$branch")
-            last_commit_timestamp=$(date -d "$last_commit_date" +%s)
-            current_timestamp=$(date +%s)
-            time_diff=$((current_timestamp - last_commit_timestamp))
-            if ((time_diff >= 7 * 24 * 60 * 60)); then
-              git push origin --delete "$branch"
+            if [[ $branch != "sandbox" && $branch != "main" ]]; then
+              git push origin --delete $branch
+              echo "Deleted branch: $branch"
+            else
+              echo "Skipped deletion of branch: $branch"
             fi
           done
