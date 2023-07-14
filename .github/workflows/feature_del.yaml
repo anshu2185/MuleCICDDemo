@@ -29,8 +29,12 @@ jobs:
 
           for branch in $merged_branches; do
             if [[ $branch != "sandbox" && $branch != "main" ]]; then
-              # last_commit_date=$(git log -1 --format=%cd --date=iso "$branch")
-             # echo "commit: $last_commit_date"
+              last_commit_date=$(git log -1 --format=%cd --date=iso origin/$branch)
+              echo "commit: $last_commit_date"
+              last_commit_timestamp=$(date -d "$last_commit_date" +%s)
+              current_timestamp=$(date +%s)
+              time_diff=$((current_timestamp - last_commit_timestamp))
+              echo "time_difference: $time_diff"
               git push origin --delete $branch
               echo "Deleted branch: $branch"
             else
